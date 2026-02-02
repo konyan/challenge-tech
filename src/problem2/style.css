@@ -1,8 +1,353 @@
+:root {
+  color-scheme: dark;
+  font-family: "Inter", "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --bg: #0b0f1a;
+  --card: rgba(16, 22, 38, 0.9);
+  --card-border: rgba(92, 106, 160, 0.25);
+  --text: #f6f7fb;
+  --muted: #b5c0d6;
+  --primary: #5c7cfa;
+  --primary-strong: #425fe5;
+  --accent: #33e1ed;
+  --danger: #ff7070;
+  --success: #63e6be;
+  --shadow: 0 24px 80px rgba(9, 16, 40, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
+  min-height: 100vh;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  min-width: 360px;
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 40px 16px;
+  background: radial-gradient(circle at top, #1a2340 0%, #0b0f1a 55%, #070a12 100%);
+  color: var(--text);
+}
+
+.app {
+  width: min(980px, 100%);
+  display: grid;
+  gap: 28px;
+}
+
+.app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 40px);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(51, 225, 237, 0.12);
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.badge__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.card {
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding: 28px;
+  border-radius: 24px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  display: grid;
+  gap: 20px;
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card__header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid rgba(130, 150, 210, 0.3);
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(7, 12, 25, 0.85);
+  border: 1px solid rgba(92, 106, 160, 0.35);
+}
+
+.select {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(92, 106, 160, 0.2);
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.select:focus,
+.select:hover {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(92, 124, 250, 0.4);
+}
+
+.token-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.chevron {
+  color: var(--muted);
+}
+
+input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 600;
+  text-align: right;
+}
+
+input:focus {
+  outline: none;
+}
+
+.helper {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.error {
+  margin: 0;
+  min-height: 18px;
+  color: var(--danger);
+  font-size: 12px;
+}
+
+.swap-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.swap {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid rgba(92, 106, 160, 0.35);
+  background: rgba(15, 23, 45, 0.9);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.rate {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.summary {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(7, 12, 25, 0.6);
+  border: 1px solid rgba(92, 106, 160, 0.2);
+}
+
+.summary div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.summary strong {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.primary {
+  border: none;
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: white;
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.primary[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  display: none;
+  animation: spin 1s linear infinite;
+}
+
+.primary.loading .spinner {
+  display: inline-block;
+}
+
+.notice {
+  margin: 0;
+  font-size: 13px;
+  color: var(--success);
+  min-height: 18px;
+}
+
+.dropdown {
+  position: fixed;
+  inset: auto auto 40px 40px;
+  width: 320px;
+  max-height: 420px;
+  border-radius: 18px;
+  background: rgba(10, 15, 28, 0.96);
+  border: 1px solid rgba(92, 106, 160, 0.4);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  z-index: 10;
+}
+
+.dropdown__search input {
+  width: 100%;
+  background: rgba(92, 106, 160, 0.15);
+  border: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.dropdown__list {
+  overflow: auto;
+  display: grid;
+  gap: 6px;
+  padding-right: 4px;
+}
+
+.token-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.token-option:hover,
+.token-option[aria-selected="true"] {
+  background: rgba(92, 124, 250, 0.18);
+}
+
+.token-option span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.token-option strong {
+  font-size: 14px;
+  color: var(--text);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .app__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .input-row {
+    grid-template-columns: 140px 1fr;
+  }
+
+  .dropdown {
+    inset: auto 16px 16px 16px;
+    width: auto;
+  }
 }

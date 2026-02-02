@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { sum_to_n_a, sum_to_n_b, sum_to_n_c } from './index';
 import './Problem1.css';
 
@@ -43,6 +44,14 @@ const Problem1: React.FC = () => {
     }));
 
     setResults(newResults);
+  };
+
+  const getLogClass = (log: string): string => {
+    if (log.includes('✅')) return 'log-success';
+    if (log.includes('❌')) return 'log-error';
+    if (log.includes('🧪') || log.includes('📦')) return 'log-info';
+    if (log.includes('✨')) return 'log-complete';
+    return '';
   };
 
   const runTests = async () => {
@@ -99,7 +108,7 @@ const Problem1: React.FC = () => {
     setIsTestRunning(false);
   };
 
-  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -111,8 +120,8 @@ const Problem1: React.FC = () => {
     <div className="problem-container">
       <h2>Problem 1: Sum from 1 to n</h2>
       <p className="description">
-        Calculate the sum of numbers from 1 to n using three different approaches:
-        loop, mathematical formula, and recursion.
+        Calculate the sum of numbers from 1 to n using three different approaches: loop,
+        mathematical formula, and recursion.
       </p>
 
       <div className="problem-content">
@@ -128,7 +137,7 @@ const Problem1: React.FC = () => {
               placeholder="Enter a number..."
               className="number-input"
             />
-            <button onClick={handleShowResult} className="btn btn-primary">
+            <button type="button" onClick={handleShowResult} className="btn btn-primary">
               Show Result
             </button>
           </div>
@@ -153,7 +162,7 @@ const Problem1: React.FC = () => {
             <h3>Test Cases:</h3>
             <div className="test-cases-grid">
               {testCases.map((testCase, index) => (
-                <div key={index} className="test-case-card">
+                <div key={`${testCase.input}-${testCase.expected}`} className="test-case-card">
                   <div className="test-case-label">Test #{index + 1}</div>
                   <div className="test-case-content">
                     <span className="test-input">n = {testCase.input}</span>
@@ -169,6 +178,7 @@ const Problem1: React.FC = () => {
             onClick={runTests}
             disabled={isTestRunning}
             className="btn btn-test"
+            type="button"
           >
             {isTestRunning ? '⏳ Running Tests...' : '🧪 Run Test Cases'}
           </button>
@@ -177,8 +187,8 @@ const Problem1: React.FC = () => {
             <div className="test-logs">
               <h3>Test Execution Log:</h3>
               <pre className="log-output">
-                {testLogs.map((log, index) => (
-                  <div key={index} className="log-line">
+                {testLogs.map((log) => (
+                  <div key={log} className={`log-line ${getLogClass(log)}`}>
                     {log}
                   </div>
                 ))}

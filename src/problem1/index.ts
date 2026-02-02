@@ -1,4 +1,3 @@
-
 // loop use
 const sum_to_n_a = (n: number): number => {
   if (n === 0) {

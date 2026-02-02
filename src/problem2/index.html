@@ -1,26 +1,61 @@
-<html>
+<html lang="en">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fancy Form</title>
-
-  <!-- You may add more stuff here -->
+  <title>Currency Swap</title>
+  <link rel="preconnect" href="https://raw.githubusercontent.com">
+  <link rel="preconnect" href="https://interview.switcheo.com"> <!-- You may add more stuff here -->
   <link href="style.css" rel="stylesheet" />
 </head>
 
 <body>
-
-  <!-- You may reorganise the whole HTML, as long as your form achieves the same effect. -->
-  <form onsubmit="return !1">
-    <h5>Swap</h5>
-    <label for="input-amount">Amount to send</label>
-    <input id="input-amount" />
-
-    <label for="output-amount">Amount to receive</label>
-    <input id="output-amount" />
-
-    <button>CONFIRM SWAP</button>
-  </form>
+  <main class="app">
+    <header class="app__header">
+      <div>
+        <p class="eyebrow">Swap assets</p>
+        <h1>Currency Swap</h1>
+      </div>
+      <div class="badge" aria-live="polite"> <span class="badge__dot"></span> Live prices </div>
+    </header> <!-- You may reorganise the whole HTML, as long as your form achieves the same effect. -->
+    <form class="card" id="swap-form" novalidate>
+      <div class="card__header">
+        <h2>Swap</h2> <button class="ghost" type="button" id="refresh-btn" aria-label="Refresh prices"> Refresh
+        </button>
+      </div>
+      <div class="field"> <label for="from-amount">You send</label>
+        <div class="input-row">
+          <div class="select" id="from-select" role="button" aria-haspopup="listbox" aria-expanded="false" tabindex="0">
+            <img class="token-icon" id="from-icon" alt="" /> <span id="from-symbol"></span> <span
+                          class="chevron">&#9662;</span> </div> <input id="from-amount" inputmode="decimal" placeholder="0.0"
+                        autocomplete="off" />
+        </div> <small class="helper" id="from-balance">Balance: 1,250.00</small>
+        <p class="error" id="from-error" aria-live="polite"></p>
+      </div>
+      <div class="swap-row"> <button class="swap" type="button" id="swap-btn" aria-label="Swap direction"> ⇅ </button>
+        <div class="rate" id="rate-text">Rate: --</div>
+      </div>
+      <div class="field"> <label for="to-amount">You receive</label>
+        <div class="input-row">
+          <div class="select" id="to-select" role="button" aria-haspopup="listbox" aria-expanded="false" tabindex="0">
+            <img class="token-icon" id="to-icon" alt="" /> <span id="to-symbol">  </span> <span
+                          class="chevron">&#9662;</span> </div> <input id="to-amount" inputmode="decimal" placeholder="0.0"
+                        autocomplete="off" />
+        </div> <small class="helper" id="to-balance">Balance: 4,020.50</small>
+        <p class="error" id="to-error" aria-live="polite"></p>
+      </div>
+      <div class="summary">
+        <div> <span>Estimated value</span> <strong id="usd-value">$0.00</strong> </div>
+        <div> <span>Network fee</span> <strong id="fee-value">0.00</strong> </div>
+        <div> <span>Slippage</span> <strong>0.30%</strong> </div>
+      </div> <button class="primary" id="submit-btn" type="submit"> <span class="btn-text">Confirm Swap</span> <span
+          class="spinner" aria-hidden="true"></span> </button>
+      <p class="notice" id="form-status" role="status"></p>
+    </form>
+  </main>
+  <div class="dropdown" id="token-menu" role="listbox" aria-label="Select token" hidden>
+    <div class="dropdown__search"> <input id="token-search" placeholder="Search token" autocomplete="off" /> </div>
+    <div class="dropdown__list" id="token-list"></div>
+  </div>
   <script src="script.js"></script>
 </body>
 
