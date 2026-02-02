@@ -32,8 +32,8 @@ const Problem1: React.FC = () => {
   ];
 
   const handleShowResult = () => {
-    const num = parseInt(inputNumber);
-    if (isNaN(num)) {
+    const num = parseInt(inputNumber, 10);
+    if (Number.isNaN(num)) {
       alert('Please enter a valid number');
       return;
     }
@@ -102,7 +102,7 @@ const Problem1: React.FC = () => {
       await sleep(300);
     }
 
-    logs.push('\n' + '='.repeat(60));
+    logs.push(`\n${'='.repeat(60)}`);
     logs.push('✨ All tests completed!');
     setTestLogs([...logs]);
     setIsTestRunning(false);

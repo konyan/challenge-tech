@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Problem3 from './Problem3';
 
+// biome-ignore lint/style/noNonNullAssertion: <>
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Problem3 />
