@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react()],
   root: resolve(__dirname),
-  base: process.env.NODE_ENV === 'production' ? '/code-challenge-main/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/challenge-tech/' : '/',
   build: {
     outDir: resolve(__dirname, 'dist'),
     rollupOptions: {
