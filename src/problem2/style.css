@@ -98,6 +98,85 @@ h1 {
   box-shadow: 0 0 12px var(--accent);
 }
 
+.token-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.token-chips::-webkit-scrollbar {
+  width: 6px;
+}
+
+.token-chips::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.token-chips::-webkit-scrollbar-thumb {
+  background: rgba(92, 106, 160, 0.3);
+  border-radius: 3px;
+}
+
+.token-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(92, 106, 160, 0.15);
+  border: 1px solid rgba(92, 106, 160, 0.3);
+  font-size: 13px;
+  transition: var(--transition);
+  cursor: default;
+}
+
+.token-chip:hover {
+  background: rgba(92, 106, 160, 0.25);
+  border-color: rgba(92, 106, 160, 0.4);
+  transform: translateY(-1px);
+}
+
+.token-chip__icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.token-chip__name {
+  font-weight: 600;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.token-chip__amount {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.token-chip.updated {
+  animation: chipUpdate 0.6s ease-out;
+  background: rgba(99, 230, 190, 0.2);
+  border-color: var(--success);
+}
+
+@keyframes chipUpdate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(99, 230, 190, 0.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .card {
   width: min(520px, 100%);
   margin: 0 auto;

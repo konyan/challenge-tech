@@ -36,6 +36,7 @@ const el = {
   menu: document.getElementById('token-menu'),
   tokenList: document.getElementById('token-list'),
   tokenSearch: document.getElementById('token-search'),
+  tokenChips: document.getElementById('token-chips'),
 };
 const formatNumber = (value, digits = 6) => {
   if (!Number.isFinite(value)) return '--';
@@ -330,6 +331,39 @@ const swapTokens = () => {
   setToken('from', state.from);
   setToken('to', state.to);
 };
+
+const renderTokenChips = (updatedTokens = []) => {
+  if (!el.tokenChips) return;
+
+  // Sort tokens by balance (highest first) and limit to top tokens
+  const sortedTokens = [...state.tokens]
+    .sort((a, b) => (state.balances[b] || 0) - (state.balances[a] || 0))
+    .slice(0, 12); // Show top 12 tokens
+
+  el.tokenChips.innerHTML = '';
+
+  sortedTokens.forEach((token) => {
+    const balance = state.balances[token] || 0;
+    const chip = document.createElement('div');
+    chip.className = 'token-chip';
+    chip.setAttribute('data-token', token);
+
+    // Add updated class if this token was just updated
+    if (updatedTokens.includes(token)) {
+      chip.classList.add('updated');
+      // Remove updated class after animation
+      setTimeout(() => chip.classList.remove('updated'), 600);
+    }
+
+    chip.innerHTML = `
+      <img class="token-chip__icon" src="${tokenIcon(token)}" alt="${token}" />
+      <span class="token-chip__name">${token}</span>
+      <span class="token-chip__amount">${formatNumber(balance, 2)}</span>
+    `;
+
+    el.tokenChips.appendChild(chip);
+  });
+};
 // Debounce helper
 let validationTimeout;
 const debounceValidation = (callback, delay = 300) => {
@@ -444,6 +478,9 @@ el.form.addEventListener('submit', (event) => {
     setToken('from', state.from);
     setToken('to', state.to);
 
+    // Update token chips with animation for changed tokens
+    renderTokenChips([state.from, state.to]);
+
     el.formStatus.textContent = `✅ Swap completed: ${formatNumber(fromAmount, 6)} ${state.from} → ${formatNumber(toAmount, 6)} ${state.to}`;
     el.formStatus.style.color = 'var(--success)';
     el.form.classList.add('success-pulse');
@@ -492,6 +529,7 @@ const init = async () => {
     setToken('to', state.to || second || state.tokens[1] || first);
     updateRate();
     updateOutputs();
+    renderTokenChips();
   } catch (error) {
     el.formStatus.textContent = '❌ Failed to initialize. Please refresh the page.';
     el.formStatus.style.color = 'var(--danger)';
