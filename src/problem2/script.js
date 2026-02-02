@@ -9,7 +9,7 @@ const state = {
   loading: false,
   balances: {},
   hasError: false,
-  lastUpdate: null
+  lastUpdate: null,
 };
 
 const el = {
@@ -69,7 +69,7 @@ const loadPrices = async () => {
 
     // Initialize mock balances for demo
     state.balances = {};
-    state.tokens.forEach(token => {
+    state.tokens.forEach((token) => {
       state.balances[token] = Math.random() * 10000;
     });
   } catch (error) {
@@ -257,12 +257,11 @@ const renderMenu = (filter = '') => {
   const query = filter.trim().toLowerCase();
   el.tokenList.innerHTML = '';
 
-  const filteredTokens = state.tokens.filter((token) =>
-    token.toLowerCase().includes(query)
-  );
+  const filteredTokens = state.tokens.filter((token) => token.toLowerCase().includes(query));
 
   if (filteredTokens.length === 0) {
-    el.tokenList.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--muted);">No tokens found</div>';
+    el.tokenList.innerHTML =
+      '<div style="padding: 20px; text-align: center; color: var(--muted);">No tokens found</div>';
     return;
   }
 
@@ -381,9 +380,12 @@ el.fromAmount.addEventListener('input', () => {
   }, 200);
 });
 
-el.fromAmount.addEventListener('input', debounceValidation(() => {
-  validate();
-}, 500));
+el.fromAmount.addEventListener(
+  'input',
+  debounceValidation(() => {
+    validate();
+  }, 500)
+);
 
 el.fromAmount.addEventListener('blur', () => {
   validate();
@@ -395,7 +397,10 @@ el.fromAmount.addEventListener('keypress', (e) => {
   const currentValue = e.target.value;
 
   // Allow: numbers, decimal point, backspace, delete, arrow keys
-  if (!/[\d.]/.test(char) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
+  if (
+    !/[\d.]/.test(char) &&
+    !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)
+  ) {
     e.preventDefault();
     return;
   }
@@ -537,6 +542,6 @@ const init = async () => {
 };
 
 // Initialize app
-init().catch(err => {
+init().catch((err) => {
   console.error('Failed to initialize app:', err);
 });

@@ -22,7 +22,7 @@ interface BoxProps {
   className?: string;
 }
 
-interface Props extends BoxProps { }
+interface Props extends BoxProps {}
 
 // ============================================================================
 // HELPER FUNCTIONS
@@ -99,20 +99,16 @@ const WalletPage: React.FC<Props> = (props: Props) => {
         >
           <div>
             <strong>{balance.currency}</strong>
-            <span style={{ marginLeft: '8px', color: '#666' }}>
-              ({balance.blockchain})
-            </span>
+            <span style={{ marginLeft: '8px', color: '#666' }}>({balance.blockchain})</span>
           </div>
           <div style={{ textAlign: 'right' }}>
             <div>{formatted}</div>
-            <div style={{ fontSize: '0.85em', color: '#888' }}>
-              ${usdValue.toFixed(2)} USD
-            </div>
+            <div style={{ fontSize: '0.85em', color: '#888' }}>${usdValue.toFixed(2)} USD</div>
           </div>
         </div>
       );
     });
-  }, [sortedBalances, prices]);
+  }, [sortedBalances]);
 
   return <div {...rest}>{rows}</div>;
 };
@@ -133,47 +129,90 @@ const Problem3: React.FC = () => {
           <div style={{ marginBottom: '24px' }}>
             <h4 style={{ color: '#d32f2f' }}>🐛 Critical Bugs (4)</h4>
             <ol>
-              <li><strong>Undefined variable:</strong> Uses <code>lhsPriority</code> instead of <code>balancePriority</code></li>
-              <li><strong>Missing property:</strong> <code>blockchain</code> not defined in <code>WalletBalance</code> interface</li>
-              <li><strong>Type mismatch:</strong> Maps over <code>WalletBalance[]</code> but types as <code>FormattedWalletBalance</code></li>
-              <li><strong>Incomplete sort:</strong> Doesn't return <code>0</code> when priorities are equal</li>
+              <li>
+                <strong>Undefined variable:</strong> Uses <code>lhsPriority</code> instead of{' '}
+                <code>balancePriority</code>
+              </li>
+              <li>
+                <strong>Missing property:</strong> <code>blockchain</code> not defined in{' '}
+                <code>WalletBalance</code> interface
+              </li>
+              <li>
+                <strong>Type mismatch:</strong> Maps over <code>WalletBalance[]</code> but types as{' '}
+                <code>FormattedWalletBalance</code>
+              </li>
+              <li>
+                <strong>Incomplete sort:</strong> Doesn't return <code>0</code> when priorities are
+                equal
+              </li>
             </ol>
           </div>
 
           <div style={{ marginBottom: '24px' }}>
             <h4 style={{ color: '#f57c00' }}>⚠️ Anti-Patterns (7)</h4>
             <ol start={5}>
-              <li><strong>TypeScript <code>any</code>:</strong> Defeats type safety in <code>getPriority</code></li>
-              <li><strong>Inverted filter logic:</strong> Keeps balances with <code>amount &lt;= 0</code></li>
-              <li><strong>Index as key:</strong> Using <code>key={`{index}`}</code> is an anti-pattern</li>
-              <li><strong>Wrong dependency:</strong> <code>prices</code> in useMemo but not used</li>
-              <li><strong>Function in component:</strong> <code>getPriority</code> recreated every render</li>
-              <li><strong>Redundant computation:</strong> <code>formattedBalances</code> created but never used</li>
-              <li><strong>Unmemoized mapping:</strong> <code>formattedBalances</code> recalculates every render</li>
+              <li>
+                <strong>
+                  TypeScript <code>any</code>:
+                </strong>{' '}
+                Defeats type safety in <code>getPriority</code>
+              </li>
+              <li>
+                <strong>Inverted filter logic:</strong> Keeps balances with{' '}
+                <code>amount &lt;= 0</code>
+              </li>
+              <li>
+                <strong>Index as key:</strong> Using <code>key={`{index}`}</code> is an anti-pattern
+              </li>
+              <li>
+                <strong>Wrong dependency:</strong> <code>prices</code> in useMemo but not used
+              </li>
+              <li>
+                <strong>Function in component:</strong> <code>getPriority</code> recreated every
+                render
+              </li>
+              <li>
+                <strong>Redundant computation:</strong> <code>formattedBalances</code> created but
+                never used
+              </li>
+              <li>
+                <strong>Unmemoized mapping:</strong> <code>formattedBalances</code> recalculates
+                every render
+              </li>
             </ol>
           </div>
 
           <div style={{ marginBottom: '24px' }}>
             <h4 style={{ color: '#1976d2' }}>🐌 Performance Issues (3)</h4>
             <ol start={12}>
-              <li><strong>Redundant priority calls:</strong> <code>getPriority</code> called twice per comparison</li>
-              <li><strong>Multiple iterations:</strong> 4 passes over data (filter, sort, map, map)</li>
-              <li><strong>Unused destructuring:</strong> <code>children</code> extracted but never used</li>
+              <li>
+                <strong>Redundant priority calls:</strong> <code>getPriority</code> called twice per
+                comparison
+              </li>
+              <li>
+                <strong>Multiple iterations:</strong> 4 passes over data (filter, sort, map, map)
+              </li>
+              <li>
+                <strong>Unused destructuring:</strong> <code>children</code> extracted but never
+                used
+              </li>
             </ol>
           </div>
         </section>
 
         <section style={{ marginBottom: '32px' }}>
           <h3>Refactored Code Solution</h3>
-          <pre style={{
-            backgroundColor: '#1e1e1e',
-            color: '#d4d4d4',
-            padding: '20px',
-            borderRadius: '8px',
-            overflow: 'auto',
-            fontSize: '13px',
-            lineHeight: '1.6',
-          }}>
+          <pre
+            style={{
+              backgroundColor: '#1e1e1e',
+              color: '#d4d4d4',
+              padding: '20px',
+              borderRadius: '8px',
+              overflow: 'auto',
+              fontSize: '13px',
+              lineHeight: '1.6',
+            }}
+          >
             <code>{`interface WalletBalance {
   currency: string;
   amount: number;
@@ -262,29 +301,55 @@ const WalletPage: React.FC<Props> = (props: Props) => {
               </thead>
               <tbody>
                 <tr style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '12px' }}><strong>Undefined variable</strong></td>
-                  <td style={{ padding: '12px' }}><code>if (lhsPriority &gt; -99)</code></td>
-                  <td style={{ padding: '12px' }}><code>if (balancePriority &gt; -99)</code></td>
+                  <td style={{ padding: '12px' }}>
+                    <strong>Undefined variable</strong>
+                  </td>
+                  <td style={{ padding: '12px' }}>
+                    <code>if (lhsPriority &gt; -99)</code>
+                  </td>
+                  <td style={{ padding: '12px' }}>
+                    <code>if (balancePriority &gt; -99)</code>
+                  </td>
                 </tr>
                 <tr style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '12px' }}><strong>Missing blockchain property</strong></td>
+                  <td style={{ padding: '12px' }}>
+                    <strong>Missing blockchain property</strong>
+                  </td>
                   <td style={{ padding: '12px' }}>Not in interface</td>
-                  <td style={{ padding: '12px' }}><code>blockchain: Blockchain</code></td>
+                  <td style={{ padding: '12px' }}>
+                    <code>blockchain: Blockchain</code>
+                  </td>
                 </tr>
                 <tr style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '12px' }}><strong>Type mismatch in rows</strong></td>
-                  <td style={{ padding: '12px' }}><code>(balance: FormattedWalletBalance)</code></td>
-                  <td style={{ padding: '12px' }}><code>(balance: WalletBalance)</code></td>
+                  <td style={{ padding: '12px' }}>
+                    <strong>Type mismatch in rows</strong>
+                  </td>
+                  <td style={{ padding: '12px' }}>
+                    <code>(balance: FormattedWalletBalance)</code>
+                  </td>
+                  <td style={{ padding: '12px' }}>
+                    <code>(balance: WalletBalance)</code>
+                  </td>
                 </tr>
                 <tr style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '12px' }}><strong>Incomplete sort return</strong></td>
+                  <td style={{ padding: '12px' }}>
+                    <strong>Incomplete sort return</strong>
+                  </td>
                   <td style={{ padding: '12px' }}>Missing return 0</td>
-                  <td style={{ padding: '12px' }}><code>return rightPriority - leftPriority</code></td>
+                  <td style={{ padding: '12px' }}>
+                    <code>return rightPriority - leftPriority</code>
+                  </td>
                 </tr>
                 <tr style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '12px' }}><strong>Inverted filter logic</strong></td>
-                  <td style={{ padding: '12px' }}><code>if (balance.amount &lt;= 0) return true</code></td>
-                  <td style={{ padding: '12px' }}><code>balance.amount &gt; 0</code></td>
+                  <td style={{ padding: '12px' }}>
+                    <strong>Inverted filter logic</strong>
+                  </td>
+                  <td style={{ padding: '12px' }}>
+                    <code>if (balance.amount &lt;= 0) return true</code>
+                  </td>
+                  <td style={{ padding: '12px' }}>
+                    <code>balance.amount &gt; 0</code>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -293,22 +358,52 @@ const WalletPage: React.FC<Props> = (props: Props) => {
           <div style={{ marginBottom: '20px' }}>
             <h4 style={{ color: '#2196f3', marginBottom: '12px' }}>🔧 Code Quality Improvements</h4>
             <ul style={{ lineHeight: '1.8' }}>
-              <li><strong>Type Safety:</strong> Changed <code>blockchain: any</code> → <code>blockchain: Blockchain</code> (union type)</li>
-              <li><strong>Function Placement:</strong> Moved <code>getPriority</code> outside component (prevents recreation)</li>
-              <li><strong>React Keys:</strong> Changed <code>key={`{index}`}</code> → <code>key={`{balance.currency}`}</code></li>
-              <li><strong>Dependency Arrays:</strong> Removed unused <code>prices</code> from sortedBalances memo</li>
-              <li><strong>Code Elimination:</strong> Removed unused <code>formattedBalances</code> variable</li>
-              <li><strong>Proper Memoization:</strong> Added <code>useMemo</code> for rows with correct dependencies</li>
+              <li>
+                <strong>Type Safety:</strong> Changed <code>blockchain: any</code> →{' '}
+                <code>blockchain: Blockchain</code> (union type)
+              </li>
+              <li>
+                <strong>Function Placement:</strong> Moved <code>getPriority</code> outside
+                component (prevents recreation)
+              </li>
+              <li>
+                <strong>React Keys:</strong> Changed <code>key={`{index}`}</code> →{' '}
+                <code>key={`{balance.currency}`}</code>
+              </li>
+              <li>
+                <strong>Dependency Arrays:</strong> Removed unused <code>prices</code> from
+                sortedBalances memo
+              </li>
+              <li>
+                <strong>Code Elimination:</strong> Removed unused <code>formattedBalances</code>{' '}
+                variable
+              </li>
+              <li>
+                <strong>Proper Memoization:</strong> Added <code>useMemo</code> for rows with
+                correct dependencies
+              </li>
             </ul>
           </div>
 
           <div>
             <h4 style={{ color: '#ff9800', marginBottom: '12px' }}>⚡ Performance Optimizations</h4>
             <ul style={{ lineHeight: '1.8' }}>
-              <li><strong>Reduced Iterations:</strong> From 4 passes (filter → sort → map → map) to 2 passes (filter+sort → map)</li>
-              <li><strong>Combined Operations:</strong> Merged formatting and row creation into single memoized function</li>
-              <li><strong>Eliminated Redundancy:</strong> Removed duplicate <code>getPriority</code> calls within sort comparisons</li>
-              <li><strong>Dependency Optimization:</strong> Ensured memos only re-run when necessary dependencies change</li>
+              <li>
+                <strong>Reduced Iterations:</strong> From 4 passes (filter → sort → map → map) to 2
+                passes (filter+sort → map)
+              </li>
+              <li>
+                <strong>Combined Operations:</strong> Merged formatting and row creation into single
+                memoized function
+              </li>
+              <li>
+                <strong>Eliminated Redundancy:</strong> Removed duplicate <code>getPriority</code>{' '}
+                calls within sort comparisons
+              </li>
+              <li>
+                <strong>Dependency Optimization:</strong> Ensured memos only re-run when necessary
+                dependencies change
+              </li>
             </ul>
           </div>
         </section>
@@ -316,9 +411,10 @@ const WalletPage: React.FC<Props> = (props: Props) => {
         <section>
           <h3>Summary</h3>
           <p style={{ lineHeight: '1.8', color: '#555' }}>
-            The refactored code fixes <strong>4 critical bugs</strong>, eliminates <strong>7 anti-patterns</strong>,
-            and implements <strong>3 performance optimizations</strong>. The result is type-safe, maintainable,
-            and efficient code that follows React and TypeScript best practices.
+            The refactored code fixes <strong>4 critical bugs</strong>, eliminates{' '}
+            <strong>7 anti-patterns</strong>, and implements{' '}
+            <strong>3 performance optimizations</strong>. The result is type-safe, maintainable, and
+            efficient code that follows React and TypeScript best practices.
           </p>
         </section>
       </div>
