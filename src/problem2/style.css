@@ -279,10 +279,14 @@ input:focus {
   background: rgba(10, 15, 28, 0.96);
   border: 1px solid rgba(92, 106, 160, 0.4);
   box-shadow: var(--shadow);
-  display: grid;
+  display: none;
   gap: 8px;
   padding: 12px;
   z-index: 10;
+}
+
+.dropdown.show {
+  display: grid;
 }
 
 .dropdown__search input {
@@ -296,10 +300,28 @@ input:focus {
 }
 
 .dropdown__list {
-  overflow: auto;
+  overflow-y: auto;
+  max-height: 300px;
   display: grid;
   gap: 6px;
   padding-right: 4px;
+}
+
+.dropdown__list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown__list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown__list::-webkit-scrollbar-thumb {
+  background: rgba(92, 106, 160, 0.4);
+  border-radius: 3px;
+}
+
+.dropdown__list::-webkit-scrollbar-thumb:hover {
+  background: rgba(92, 106, 160, 0.6);
 }
 
 .token-option {

@@ -51,17 +51,23 @@ const loadPrices = async () => {
 };
 const tokenIcon = (symbol) => `${ICON_BASE}${symbol}.svg`;
 const setToken = (side, symbol) => {
-  if (!symbol) return;
+  console.log('Setting token', side, symbol);
+  if (!symbol || !side) return;
+
   if (side === 'from') {
     state.from = symbol;
-    el.fromSymbol.textContent = symbol;
-    el.fromIcon.src = tokenIcon(symbol);
-    el.fromIcon.alt = `${symbol} token`;
+    if (el.fromSymbol) el.fromSymbol.textContent = symbol;
+    if (el.fromIcon) {
+      el.fromIcon.src = tokenIcon(symbol);
+      el.fromIcon.alt = `${symbol} token`;
+    }
   } else {
     state.to = symbol;
-    el.toSymbol.textContent = symbol;
-    el.toIcon.src = tokenIcon(symbol);
-    el.toIcon.alt = `${symbol} token`;
+    if (el.toSymbol) el.toSymbol.textContent = symbol;
+    if (el.toIcon) {
+      el.toIcon.src = tokenIcon(symbol);
+      el.toIcon.alt = `${symbol} token`;
+    }
   }
   updateRate();
   updateOutputs();
@@ -136,9 +142,11 @@ const renderMenu = (filter = '') => {
       option.className = 'token-option';
       option.setAttribute('role', 'option');
       option.innerHTML = ` <img class="token-icon" src="${tokenIcon(token)}" alt="${token} token" /> <div> <strong>${token}</strong> <span>$${formatNumber(state.prices[token], 4)}</span> </div> `;
-      option.addEventListener('click', () => {
-        setToken(state.activeMenu, token);
-        closeMenu();
+      option.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const currentSide = state.activeMenu;
+        setToken(currentSide, token);
+        setTimeout(() => closeMenu(), 0);
       });
       el.tokenList.appendChild(option);
     });
@@ -146,13 +154,13 @@ const renderMenu = (filter = '') => {
 const openMenu = (side, target) => {
   state.activeMenu = side;
   setMenuPosition(target);
-  el.menu.hidden = false;
+  el.menu.classList.add('show');
   el.tokenSearch.value = '';
   renderMenu();
   el.tokenSearch.focus();
 };
 const closeMenu = () => {
-  el.menu.hidden = true;
+  el.menu.classList.remove('show');
   state.activeMenu = null;
 };
 const toggleLoading = (loading) => {
@@ -176,9 +184,11 @@ el.swapBtn.addEventListener('click', () => {
   swapTokens();
 });
 el.fromSelect.addEventListener('click', (event) => {
+  event.stopPropagation();
   openMenu('from', event.currentTarget);
 });
 el.toSelect.addEventListener('click', (event) => {
+  event.stopPropagation();
   openMenu('to', event.currentTarget);
 });
 el.fromSelect.addEventListener('keydown', (event) => {
@@ -196,8 +206,11 @@ el.toSelect.addEventListener('keydown', (event) => {
 el.tokenSearch.addEventListener('input', (event) => {
   renderMenu(event.target.value);
 });
-document.addEventListener('click', (event) => {
-  if (!el.menu.hidden && !el.menu.contains(event.target) && !event.target.closest('.select')) {
+el.menu.addEventListener('click', (event) => {
+  event.stopPropagation();
+});
+document.addEventListener('click', () => {
+  if (el.menu.classList.contains('show')) {
     closeMenu();
   }
 });
