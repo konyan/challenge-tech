@@ -12,7 +12,6 @@ const state = {
   lastUpdate: null
 };
 
-console.log('Token Swap App Initialized', state);
 const el = {
   form: document.getElementById('swap-form'),
   fromSelect: document.getElementById('from-select'),
