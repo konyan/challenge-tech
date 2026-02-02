@@ -10,10 +10,11 @@ const Problem3 = lazy(() => import('./problem3/Problem3'));
 
 // Iframe component for Problem 2 (vanilla HTML/CSS/JS)
 const Problem2: React.FC = () => {
+  const iframeSrc = import.meta.env.BASE_URL + 'src/problem2/index.html';
   return (
     <div className="iframe-container">
       <iframe
-        src="/src/problem2/index.html"
+        src={iframeSrc}
         title="Problem 2 - Currency Swap"
         className="problem-iframe"
       />
