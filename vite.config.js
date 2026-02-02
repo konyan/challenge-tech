@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react()],
   root: resolve(__dirname),
+  base: process.env.NODE_ENV === 'production' ? '/code-challenge-main/' : '/',
   build: {
     outDir: resolve(__dirname, 'dist'),
     rollupOptions: {
@@ -13,8 +14,6 @@ export default defineConfig({
         problem1: resolve(__dirname, 'src/problem1/index.html'),
         problem2: resolve(__dirname, 'src/problem2/index.html'),
         problem3: resolve(__dirname, 'src/problem3/index.html'),
-        problem4: resolve(__dirname, 'src/problem4/index.html'),
-        problem5: resolve(__dirname, 'src/problem5/index.html'),
       },
     },
   },
